@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Web3Provider, useWeb3 } from './Web3Provider';
+import Admin from './components/Admin';
+import Payment from './components/Payment';
+import Voting from './components/Voting';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    return (
+        <Web3Provider>
+            <Main />
+        </Web3Provider>
+    );
+};
+
+const Main = () => {
+    const { connectWallet, account, balance } = useWeb3();
+
+    return (
+        <div>
+            <h1>Web3 App</h1>
+            {account ? (
+                <div>
+                    <p>Account: {account}</p>
+                    <p>Balance: {balance} ETH</p>
+                </div>
+            ) : (
+                <button onClick={connectWallet}>Connect Wallet</button>
+            )}
+            <Admin />
+            <Payment />
+            <Voting />
+        </div>
+    );
+};
 
 export default App;
